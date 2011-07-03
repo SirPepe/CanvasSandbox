@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>Canvas-Sandbox</title>
+<title>Canvas-Sandbox 2.0</title>
 <style>
 	p { margin:1em; }
 	canvas { border:1px solid black; cursor:crosshair; }
@@ -22,12 +22,23 @@
 	<p>
 		Canvas-Element: <code>canvas</code>
 		<br>
-		2D-Context: <code>context</code>
+		CanvasQuery-Context: <code>context</code>
 		<br>
-		Winkel-Umrechner: <code>Math.toRad(deg)</code>
+		Winkel-Umrechner: <code>context.deg2rad(deg)</code>
+		<br>
+		Setter (einfach): <code>context.set(attr, value)</code>
+		<br>
+		Setter (mehrfach): <code>context.set(hashmap)</code>
+		<br>
+		Getter (einfach): <code>context.get(attr)</code>
+		<br>
+		Verkettung: <code>context.foo().bar().baz()</code>
+		<br>
+		Animation: <code>context.animate(callback)</code>
 		<br>
 		Cursorposition: <span id="posX">N</span> / <span id="posY">N</span>
 </div>
+<script src="CanvasQuery.js"></script>
 <script>
 
 // Eingabefeld, Buttons und X/Y-Anzeigen
@@ -39,12 +50,7 @@ var posY = document.getElementById('posY');
 
 // Globale vars
 var canvas = document.getElementById('canvas');
-var context = canvas.getContext('2d');
-
-// Hilfsmethode toRad()
-Math.toRad = function(x){
-	return (x * Math.PI) / 180;
-}
+var context = new CanvasQuery(canvas);
 
 // http://www.quirksmode.org/js/findpos.html
 var findPos = function(obj) {
