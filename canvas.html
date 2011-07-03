@@ -1,98 +1,90 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Canvas-Sandbox</title>
-		<style>
-			p { margin:1em; }
-			canvas { border:1px solid black; cursor:crosshair; }
-			textarea { font-size:1em; line-height:1.2; font-family:"Courier New", Courier, monospace; width:600px; }
-			#main { width:600px; float:left; }
-			#side { width:300px; float:left; margin-left:64px; }
-			#execute { font-weight:bold; }
-		</style>
-	</head>
-	<body>
-		<div id="main">
-			<p>
-				<canvas height="320" width="600" id="canvas"></canvas>
-				<br>
-				<textarea id="query" cols="60" rows="10"></textarea>
-				<br>
-				<input type="button" value="Ausführen" id="execute">
-				<input type="button" value="Reset" id="reset">
-			</p>
-		</div>
-		<div id="side">
-			<p>
-				Canvas-Element: <code>canvas</code>
-				<br>
-				2D-Context: <code>context</code>
-				<br>
-				Winkel-Umrechner: <code>Math.toRad(deg)</code>
-				<br>
-				Cursorposition: <span id="posX">N</span> / <span id="posY">N</span>
-			</p>
-		</div>
-		<script>
+<meta charset="utf-8">
+<title>Canvas-Sandbox</title>
+<style>
+	p { margin:1em; }
+	canvas { border:1px solid black; cursor:crosshair; }
+	textarea { font-size:1em; line-height:1.2; font-family:"Courier New", Courier, monospace; width:600px; }
+	#main { width:600px; float:left; }
+	#side { width:300px; float:left; margin-left:64px; }
+	#execute { font-weight:bold; }
+</style>
+<div id="main">
+	<p>
+		<canvas height="320" width="600" id="canvas"></canvas>
+		<br>
+		<textarea id="query" cols="60" rows="10"></textarea>
+		<br>
+		<input type="button" value="Ausführen" id="execute">
+		<input type="button" value="Reset" id="reset">
+</div>
+<div id="side">
+	<p>
+		Canvas-Element: <code>canvas</code>
+		<br>
+		2D-Context: <code>context</code>
+		<br>
+		Winkel-Umrechner: <code>Math.toRad(deg)</code>
+		<br>
+		Cursorposition: <span id="posX">N</span> / <span id="posY">N</span>
+</div>
+<script>
 
-			// Eingabefeld, Buttons und X/Y-Anzeigen
-			var query = document.getElementById('query');
-			var execute = document.getElementById('execute');
-			var reset = document.getElementById('reset');
-			var posX = document.getElementById('posX');
-			var posY = document.getElementById('posY');
+// Eingabefeld, Buttons und X/Y-Anzeigen
+var query = document.getElementById('query');
+var execute = document.getElementById('execute');
+var reset = document.getElementById('reset');
+var posX = document.getElementById('posX');
+var posY = document.getElementById('posY');
 
-			// Globale vars
-			var canvas = document.getElementById('canvas');
-			var context = canvas.getContext('2d');
+// Globale vars
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
 
-			// Hilfsmethode toRad()
-			Math.toRad = function(x){
-				return (x * Math.PI) / 180;
-			}
+// Hilfsmethode toRad()
+Math.toRad = function(x){
+	return (x * Math.PI) / 180;
+}
 
-			// http://www.quirksmode.org/js/findpos.html
-			var findPos = function(obj) {
-				var curleft = curtop = 0;
-				if(obj.offsetParent){
-					do {
-						curleft += obj.offsetLeft;
-						curtop  += obj.offsetTop;
-					} while (obj = obj.offsetParent);
-					return [curleft,curtop];
-				}
-			}
+// http://www.quirksmode.org/js/findpos.html
+var findPos = function(obj) {
+	var curleft = curtop = 0;
+	if(obj.offsetParent){
+		do {
+			curleft += obj.offsetLeft;
+			curtop  += obj.offsetTop;
+		} while (obj = obj.offsetParent);
+		return [curleft,curtop];
+	}
+}
 
-			// Koordinaten-Anzeige
-			canvas.onmousemove = function(evt){
-				var x = evt.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - findPos(canvas)[0];
-				var y = evt.clientY + document.body.scrollTop + document.documentElement.scrollTop - findPos(canvas)[1];
-				posX.innerHTML = x;
-				posY.innerHTML = y;
-			};
-			canvas.onmouseout = function(){
-				posX.innerHTML = posY.innerHTML = 'N';
-			}
+// Koordinaten-Anzeige
+canvas.onmousemove = function(evt){
+	var x = evt.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - findPos(canvas)[0];
+	var y = evt.clientY + document.body.scrollTop + document.documentElement.scrollTop - findPos(canvas)[1];
+	posX.innerHTML = x;
+	posY.innerHTML = y;
+};
+canvas.onmouseout = function(){
+	posX.innerHTML = posY.innerHTML = 'N';
+}
 
-			// Ausführen!
-			execute.onclick = function(){
-				if(query.value){
-					try {
-						eval(query.value);
-					}
-					catch(e){
-						alert(e);
-						console.log(e);
-					}
-				}
-			}
+// Ausführen!
+execute.onclick = function(){
+	if(query.value){
+		try {
+			eval(query.value);
+		}
+		catch(e){
+			alert(e);
+			console.log(e);
+		}
+	}
+}
 
-			// Reset
-			reset.onclick = function(){
-				context.canvas.height = context.canvas.height;
-			}
+// Reset
+reset.onclick = function(){
+	context.canvas.height = context.canvas.height;
+}
 
-		</script>
-	</body>
-</html>
+</script>
