@@ -6,8 +6,8 @@
 	h2 { display:inline; font-size:1em; }
 	p, dl, details { display:block; font-size:1em; margin:1em; }
 	dd { margin-bottom:0.5em; }
-	canvas { border:1px solid black; cursor:crosshair; }
-	textarea { font-size:1em; line-height:1.2; font-family:"Courier New", Courier, monospace; width:600px; padding:2px; }
+	canvas { display:block; border:1px solid black; cursor:crosshair; }
+	textarea { display:block; font-size:1em; line-height:1.2; font-family:"Courier New", Courier, monospace; width:600px; padding:2px; }
 	#main { width:600px; float:left; }
 	#side { width:360px; float:left; margin-left:32px; }
 	#execute, #savesettings { font-weight:bold; }
@@ -81,7 +81,8 @@ var query        = document.getElementById('query'),
 
 // http://www.quirksmode.org/js/findpos.html
 var findPos = function(obj) {
-	var curleft = curtop = 0;
+	var curleft = 0,
+	    curtop = 0;
 	if(obj.offsetParent){
 		do {
 			curleft += obj.offsetLeft;
@@ -109,7 +110,7 @@ savesettings.onclick = function(){
 	var newwidth  = parseInt(setwidth.value),
 	    newheight = parseInt(setheight.value);
 	if(newwidth && newheight){
-		if(confirm('Canvas auf die Maße ' + newwidth + ' x ' + newheight + ' setzen?')){
+		if(confirm('Canvas auf die Maße ' + newwidth + ' x ' + newheight + ' setzen? Dies löscht den Canvas-Inhalt!')){
 			canvas.width  = newwidth;
 			canvas.height = newheight;
 		}
@@ -124,6 +125,9 @@ execute.onclick = function(){
 	if(query.value){
 		try {
 			eval(query.value);
+			if(localStorage){
+				localStorage.setItem('codeRecovery', query.value);
+			}
 		}
 		catch(e){
 			alert("Script-Fehler! " + e);
@@ -136,6 +140,17 @@ execute.onclick = function(){
 reset.onclick = function(){
 	context.canvas.height = context.canvas.height;
 }
+
+// Codewiederherstellung
+window.onload = function(){
+	if(localStorage){
+		var restored = localStorage.getItem('codeRecovery');
+		if(restored && query.value == ''){
+			query.value = restored;
+			console.log('Code von vorheriger Browsersitzung wiederhergestellt.')
+		}
+	}
+};
 
 })();
 
