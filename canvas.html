@@ -2,16 +2,21 @@
 <meta charset="utf-8">
 <title>Canvas-Sandbox</title>
 <style>
-	p { margin:1em; }
+	h1 { display:none; }
+	h2 { display:inline; font-size:1em; }
+	p, dl, details { display:block; font-size:1em; margin:1em; }
+	dd { margin-bottom:0.5em; }
 	canvas { border:1px solid black; cursor:crosshair; }
-	textarea { font-size:1em; line-height:1.2; font-family:"Courier New", Courier, monospace; width:600px; }
+	textarea { font-size:1em; line-height:1.2; font-family:"Courier New", Courier, monospace; width:600px; padding:2px; }
 	#main { width:600px; float:left; }
-	#side { width:360px; float:left; margin-left:64px; }
-	#execute { font-weight:bold; }
+	#side { width:360px; float:left; margin-left:32px; }
+	#execute, #savesettings { font-weight:bold; }
+	summary { cursor:pointer; }
 </style>
+<h1>Canvas-Sandbox</h1>
 <div id="main">
 	<p>
-		<canvas height="320" width="600" id="canvas"></canvas>
+		<canvas height="320" width="604" id="canvas"></canvas>
 		<br>
 		<textarea id="query" cols="60" rows="10"></textarea>
 		<br>
@@ -19,32 +24,60 @@
 		<input type="button" value="Reset" id="reset">
 </div>
 <div id="side">
-	<p>
-		Canvas-Element: <code>canvas</code>
-		<br>
-		2D-Context: <code>context</code>
-		<br>
-		Winkel-Umrechner: <code>Math.toRad(deg)</code>
-		<br>
-		Cursorposition: <span id="posX">N</span> / <span id="posY">N</span>
+	<details open>
+		<summary>
+			<h2>Variablen und Funktionen:</h2>
+		</summary>
+		<dl>
+			<dt>Canvas-Element:</dt>
+			<dd><code>canvas</code></dd>
+			<dt>2D-Context:</dt>
+			<dd><code>context</code></dd>
+			<dt>Winkel-Umrechner:</dt>
+			<dd><code>Math.toRad(deg)</code></dd>
+			<dt>Cursorposition:</dt>
+			<dd><span id="posX">NA</span> / <span id="posY">NA</span></dd>
+		</dl>
+	</details>
+	<details>
+		<summary>
+			<h2>Einstellungen:</h2>
+		</summary>
+		<p>
+			Breite: <input type="number" id="setwidth">
+		</p>
+		<p>
+			Höhe:  <input type="number" id="setheight">
+		</p>
+		<p>
+			<input type="button" value="Speichern" id="savesettings">
+		</p>
+	</details>
 </div>
 <script>
 
-// Eingabefeld, Buttons und X/Y-Anzeigen
-var query = document.getElementById('query');
-var execute = document.getElementById('execute');
-var reset = document.getElementById('reset');
-var posX = document.getElementById('posX');
-var posY = document.getElementById('posY');
-
 // Globale vars
-var canvas = document.getElementById('canvas');
-var context = canvas.getContext('2d');
+var canvas = document.getElementById('canvas'),
+    context = canvas.getContext('2d');
 
 // Hilfsmethode toRad()
 Math.toRad = function(x){
 	return (x * Math.PI) / 180;
-}
+};
+
+// Ab hier interne Funktionalität
+(function(){
+"use strict";
+
+// Eingabefeld, Buttons und X/Y-Anzeigen
+var query        = document.getElementById('query'),
+    execute      = document.getElementById('execute'),
+    reset        = document.getElementById('reset'),
+    posX         = document.getElementById('posX'),
+    posY         = document.getElementById('posY'),
+    savesettings = document.getElementById('savesettings'),
+    setwidth     = document.getElementById('setwidth'),
+    setheight    = document.getElementById('setheight');
 
 // http://www.quirksmode.org/js/findpos.html
 var findPos = function(obj) {
@@ -60,13 +93,30 @@ var findPos = function(obj) {
 
 // Koordinaten-Anzeige
 canvas.onmousemove = function(evt){
-	var x = evt.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - findPos(canvas)[0];
-	var y = evt.clientY + document.body.scrollTop + document.documentElement.scrollTop - findPos(canvas)[1];
+	var x = evt.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - findPos(canvas)[0],
+	    y = evt.clientY + document.body.scrollTop  + document.documentElement.scrollTop  - findPos(canvas)[1];
 	posX.innerHTML = x;
 	posY.innerHTML = y;
 };
 canvas.onmouseout = function(){
-	posX.innerHTML = posY.innerHTML = 'N';
+	posX.innerHTML = posY.innerHTML = 'NA';
+}
+
+// Maße verstellen
+setwidth.value  = canvas.width;
+setheight.value = canvas.height;
+savesettings.onclick = function(){
+	var newwidth  = parseInt(setwidth.value),
+	    newheight = parseInt(setheight.value);
+	if(newwidth && newheight){
+		if(confirm('Canvas auf die Maße ' + newwidth + ' x ' + newheight + ' setzen?')){
+			canvas.width  = newwidth;
+			canvas.height = newheight;
+		}
+	}
+	else {
+		alert('Keine gülten Maße angegeben.');
+	}
 }
 
 // Ausführen!
@@ -76,7 +126,7 @@ execute.onclick = function(){
 			eval(query.value);
 		}
 		catch(e){
-			alert(e);
+			alert("Script-Fehler! " + e);
 			console.log(e);
 		}
 	}
@@ -86,5 +136,8 @@ execute.onclick = function(){
 reset.onclick = function(){
 	context.canvas.height = context.canvas.height;
 }
+
+})();
+
 
 </script>
