@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title>Canvas-Sandbox</title>
+<script src="CanvasQuery.js"></script>
 <style>
 	h1 { display:none; }
 	h2 { display:inline; font-size:1em; }
@@ -10,8 +11,8 @@
 	textarea { display:block; font-size:1em; line-height:1.2; font-family:"Courier New", Courier, monospace; width:600px; padding:2px; }
 	#main { width:600px; float:left; }
 	#side { width:360px; float:left; margin-left:32px; }
-	#execute, #savesettings { font-weight:bold; }
-	summary { cursor:pointer; }
+	#execute { font-weight:bold; }
+	summary, label { cursor:pointer; }
 </style>
 <h1>Canvas-Sandbox</h1>
 <div id="main">
@@ -50,7 +51,7 @@
 			Höhe:  <input type="number" id="setheight">
 		</p>
 		<p>
-			<input type="button" value="Speichern" id="savesettings">
+			<label><input type="checkbox" id="framework"> Framework aktivieren</label>
 		</p>
 	</details>
 </div>
@@ -77,7 +78,8 @@ var query        = document.getElementById('query'),
     posY         = document.getElementById('posY'),
     savesettings = document.getElementById('savesettings'),
     setwidth     = document.getElementById('setwidth'),
-    setheight    = document.getElementById('setheight');
+    setheight    = document.getElementById('setheight'),
+    framework    = document.getElementById('framework');
 
 // http://www.quirksmode.org/js/findpos.html
 var findPos = function(obj) {
@@ -106,31 +108,30 @@ canvas.onmouseout = function(){
 // Maße verstellen
 setwidth.value  = canvas.width;
 setheight.value = canvas.height;
-savesettings.onclick = function(){
+var changesizes = function(){
 	var newwidth  = parseInt(setwidth.value),
 	    newheight = parseInt(setheight.value);
 	if(newwidth && newheight){
-		if(confirm('Canvas auf die Maße ' + newwidth + ' x ' + newheight + ' setzen? Dies löscht den Canvas-Inhalt!')){
-			canvas.width  = newwidth;
-			canvas.height = newheight;
-		}
+		canvas.width  = newwidth;
+		canvas.height = newheight;
 	}
 	else {
 		alert('Keine gülten Maße angegeben.');
 	}
 }
+setwidth.onchange = setheight.onchange = changesizes;
 
 // Ausführen!
 execute.onclick = function(){
 	if(query.value){
 		try {
 			eval(query.value);
-			if(localStorage){
-				localStorage.setItem('codeRecovery', query.value);
+			if(window.localStorage){
+				window.localStorage.setItem('codeRecovery', query.value);
 			}
 		}
 		catch(e){
-			alert("Script-Fehler! " + e);
+			window.alert("Script-Fehler! " + e);
 			console.log(e);
 		}
 	}
@@ -143,12 +144,30 @@ reset.onclick = function(){
 
 // Codewiederherstellung
 window.onload = function(){
-	if(localStorage){
-		var restored = localStorage.getItem('codeRecovery');
+	if(window.localStorage){
+		var restored = window.localStorage.getItem('codeRecovery');
 		if(restored && query.value == ''){
 			query.value = restored;
 			console.log('Code von vorheriger Browsersitzung wiederhergestellt.')
 		}
+	}
+};
+
+// Framework aktivieren/deaktivieren
+framework.onchange = function(){
+	if(this.checked){
+		var answer = window.prompt('Wie lautet das Passwort?');
+		if(answer == '\u0049\u0045\u0036'){
+			window.alert('Framework aktiviert');
+			context = new CanvasQuery('canvas');
+		}
+		else {
+			window.alert('Leider falsch :(');
+			this.checked = false;
+		}
+	}
+	else {
+		context = canvas.getContext('2d');
 	}
 };
 
