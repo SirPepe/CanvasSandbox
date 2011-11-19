@@ -50,9 +50,6 @@
 		<p>
 			Höhe:  <input type="number" id="setheight">
 		</p>
-		<p>
-			<label><input type="checkbox" id="framework"> Framework aktivieren</label>
-		</p>
 	</details>
 </div>
 <script>
@@ -150,24 +147,6 @@ window.onload = function(){
 			query.value = restored;
 			console.log('Code von vorheriger Browsersitzung wiederhergestellt.')
 		}
-	}
-};
-
-// Framework aktivieren/deaktivieren
-framework.onchange = function(){
-	if(this.checked){
-		var answer = window.prompt('Wie lautet das Passwort?');
-		if(answer == '\u0049\u0045\u0036'){
-			window.alert('Framework aktiviert');
-			context = new CanvasQuery('canvas');
-		}
-		else {
-			window.alert('Leider falsch :(');
-			this.checked = false;
-		}
-	}
-	else {
-		context = canvas.getContext('2d');
 	}
 };
 
