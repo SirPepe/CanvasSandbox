@@ -6,16 +6,20 @@
 <link rel="stylesheet" href="lib/codemirror/codemirror.css">
 <link rel="stylesheet" href="lib/codemirror/neat.css">
 <style>
+	body { margin:8px 16px; }
 	h1 { display:none; }
-	p, dl, details { display:block; font-size:1em; margin:1em; }
-	dd { margin-bottom:0.5em; }
-	canvas { display:block; border:1px solid black; cursor:crosshair; }
-	.CodeMirror-scroll { border:1px solid black; cursor:text; }
-	#main { float:left; width:600px; }
+	dt, dd { display: block; float:left; margin:0 0 8px 0; }
+	dt { clear: both; }
+	dd { padding-left:8px; }
+	canvas { display:block; cursor:crosshair; }
+	.CodeMirror-scroll { cursor:text; }
+	canvas, .CodeMirror-scroll {  border:1px solid #333; box-shadow:0 0 16px -4px #999; }
+	#main { float:left; width:640px; }
+	#side { float:left; padding-left:24px; }
 </style>
 <h1>Canvas Sandbox</h1>
 <div id="main">
-	<canvas height="320" width="600" id="canvas"></canvas>
+	<canvas height="320" width="640" id="canvas"></canvas>
 	<br>
 	<textarea id="query" cols="60" rows="10"></textarea>
 	<br>
@@ -31,6 +35,10 @@
 		<dd><code>Math.toRad(deg)</code></dd>
 		<dt>Cursorposition:</dt>
 		<dd><span id="posX">NA</span> / <span id="posY">NA</span></dd>
+		<dt>Spezifikationen:</dt>
+		<dd><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html">WHATWG</a>
+		<dt>Cheat Sheet:</dt>
+		<dd><a href="http://www.nihilogic.dk/labs/canvas_sheet/HTML5_Canvas_Cheat_Sheet.pdf">nihilogic.dk</a>
 	</dl>
 </div>
 <script>
