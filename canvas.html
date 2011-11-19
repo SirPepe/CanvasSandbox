@@ -1,64 +1,47 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title>Canvas-Sandbox</title>
-<script src="CanvasQuery.js"></script>
+<script src="lib/codemirror/codemirror.js"></script>
+<script src="lib/codemirror/javascript.js"></script>
+<link rel="stylesheet" href="lib/codemirror/codemirror.css">
+<link rel="stylesheet" href="lib/codemirror/neat.css">
 <style>
 	h1 { display:none; }
-	h2 { display:inline; font-size:1em; }
 	p, dl, details { display:block; font-size:1em; margin:1em; }
 	dd { margin-bottom:0.5em; }
 	canvas { display:block; border:1px solid black; cursor:crosshair; }
-	textarea { display:block; font-size:1em; line-height:1.2; font-family:"Courier New", Courier, monospace; width:600px; padding:2px; }
-	#main { width:600px; float:left; }
-	#side { width:360px; float:left; margin-left:32px; }
-	#execute { font-weight:bold; }
-	summary, label { cursor:pointer; }
+	.CodeMirror-scroll { border:1px solid black; cursor:text; }
+	#main { float:left; width:600px; }
 </style>
-<h1>Canvas-Sandbox</h1>
+<h1>Canvas Sandbox</h1>
 <div id="main">
-	<p>
-		<canvas height="320" width="604" id="canvas"></canvas>
-		<br>
-		<textarea id="query" cols="60" rows="10"></textarea>
-		<br>
-		<input type="button" value="Ausführen" id="execute">
-		<input type="button" value="Reset" id="reset">
+	<canvas height="320" width="600" id="canvas"></canvas>
+	<br>
+	<textarea id="query" cols="60" rows="10"></textarea>
+	<br>
+	<input type="button" value="Ausführen" id="execute">
 </div>
 <div id="side">
-	<details open>
-		<summary>
-			<h2>Variablen und Funktionen:</h2>
-		</summary>
-		<dl>
-			<dt>Canvas-Element:</dt>
-			<dd><code>canvas</code></dd>
-			<dt>2D-Context:</dt>
-			<dd><code>context</code></dd>
-			<dt>Winkel-Umrechner:</dt>
-			<dd><code>Math.toRad(deg)</code></dd>
-			<dt>Cursorposition:</dt>
-			<dd><span id="posX">NA</span> / <span id="posY">NA</span></dd>
-		</dl>
-	</details>
-	<details>
-		<summary>
-			<h2>Einstellungen:</h2>
-		</summary>
-		<p>
-			Breite: <input type="number" id="setwidth">
-		</p>
-		<p>
-			Höhe:  <input type="number" id="setheight">
-		</p>
-	</details>
+	<dl>
+		<dt>Canvas-Element:</dt>
+		<dd><code>canvas</code></dd>
+		<dt>2D-Context:</dt>
+		<dd><code>context</code></dd>
+		<dt>Winkel-Umrechner:</dt>
+		<dd><code>Math.toRad(deg)</code></dd>
+		<dt>Cursorposition:</dt>
+		<dd><span id="posX">NA</span> / <span id="posY">NA</span></dd>
+	</dl>
 </div>
 <script>
 
-// Globale vars
-var canvas = document.getElementById('canvas'),
-    context = canvas.getContext('2d');
+var $ = function(id){
+	return document.getElementById(id);
+}
 
-// Hilfsmethode toRad()
+// Globale vars
+var canvas = $('canvas'),
+    context = canvas.getContext('2d');
 Math.toRad = function(x){
 	return (x * Math.PI) / 180;
 };
@@ -67,18 +50,25 @@ Math.toRad = function(x){
 (function(){
 "use strict";
 
-// Eingabefeld, Buttons und X/Y-Anzeigen
-var query        = document.getElementById('query'),
-    execute      = document.getElementById('execute'),
-    reset        = document.getElementById('reset'),
-    posX         = document.getElementById('posX'),
-    posY         = document.getElementById('posY'),
-    savesettings = document.getElementById('savesettings'),
-    setwidth     = document.getElementById('setwidth'),
-    setheight    = document.getElementById('setheight'),
-    framework    = document.getElementById('framework');
+var textarea     = $('query'),
+    execute      = $('execute'),
+    reset        = $('reset'),
+    posX         = $('posX'),
+    posY         = $('posY'),
+    savesettings = $('savesettings'),
+    setwidth     = $('setwidth'),
+    setheight    = $('setheight'),
+    framework    = $('framework');
 
-// http://www.quirksmode.org/js/findpos.html
+/* Create editor */
+var editor = CodeMirror.fromTextArea(textarea, {
+	mode: 'javascript',
+	theme: 'neat',
+	indentUnit: 4,
+	lineNumbers: true
+});
+
+/* http://www.quirksmode.org/js/findpos.html */
 var findPos = function(obj) {
 	var curleft = 0,
 	    curtop = 0;
@@ -91,7 +81,7 @@ var findPos = function(obj) {
 	}
 }
 
-// Koordinaten-Anzeige
+/* Show coordinates */
 canvas.onmousemove = function(evt){
 	var x = evt.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - findPos(canvas)[0],
 	    y = evt.clientY + document.body.scrollTop  + document.documentElement.scrollTop  - findPos(canvas)[1];
@@ -102,50 +92,29 @@ canvas.onmouseout = function(){
 	posX.innerHTML = posY.innerHTML = 'NA';
 }
 
-// Maße verstellen
-setwidth.value  = canvas.width;
-setheight.value = canvas.height;
-var changesizes = function(){
-	var newwidth  = parseInt(setwidth.value),
-	    newheight = parseInt(setheight.value);
-	if(newwidth && newheight){
-		canvas.width  = newwidth;
-		canvas.height = newheight;
-	}
-	else {
-		alert('Keine gülten Maße angegeben.');
-	}
-}
-setwidth.onchange = setheight.onchange = changesizes;
-
-// Ausführen!
+/* Execute! */
 execute.onclick = function(){
-	if(query.value){
+	var val = editor.getValue();
+	if(val){
 		try {
-			eval(query.value);
+			eval(val);
 			if(window.localStorage){
-				window.localStorage.setItem('codeRecovery', query.value);
+				window.localStorage.setItem('codeRecovery', val);
 			}
 		}
 		catch(e){
 			window.alert("Script-Fehler! " + e);
-			console.log(e);
 		}
 	}
 }
 
-// Reset
-reset.onclick = function(){
-	context.canvas.height = context.canvas.height;
-}
-
-// Codewiederherstellung
+/* Restore last session after reload */
 window.onload = function(){
+	editor.focus();
 	if(window.localStorage){
 		var restored = window.localStorage.getItem('codeRecovery');
-		if(restored && query.value == ''){
-			query.value = restored;
-			console.log('Code von vorheriger Browsersitzung wiederhergestellt.')
+		if(restored && editor.getValue() == ''){
+			editor.setValue(restored);
 		}
 	}
 };
