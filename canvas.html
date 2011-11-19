@@ -6,16 +6,18 @@
 <link rel="stylesheet" href="lib/codemirror/codemirror.css">
 <link rel="stylesheet" href="lib/codemirror/neat.css">
 <style>
-	body { margin:8px 16px; }
-	h1 { display:none; }
-	dt, dd { display: block; float:left; margin:0 0 8px 0; }
-	dt { clear: both; }
-	dd { padding-left:8px; }
-	canvas { display:block; cursor:crosshair; }
-	.CodeMirror-scroll { cursor:text; }
-	canvas, .CodeMirror-scroll {  border:1px solid #333; box-shadow:0 0 16px -4px #999; }
-	#main { float:left; width:640px; }
-	#side { float:left; padding-left:24px; }
+body { margin:8px 16px; }
+h1 { display:none; }
+dt, dd { display: block; float:left; margin:0 0 8px 0; }
+dt { clear: both; }
+dd { padding-left:8px; }
+canvas { display:block; cursor:crosshair; }
+.CodeMirror-scroll { cursor:text; }
+canvas, .CodeMirror-scroll {  border:1px solid #333; box-shadow:0 0 16px -4px #999; }
+#main { float:left; width:640px; }
+#side { float:left; padding-left:24px; }
+.CodeMirror { font-size: 14px; } /* Default font size */
+.CodeMirror-lines { padding-left: 1.1em; } /* For larger font sizes */
 </style>
 <h1>Canvas Sandbox</h1>
 <div id="main">
@@ -39,12 +41,17 @@
 		<dd><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html">WHATWG</a>
 		<dt>Cheat Sheet:</dt>
 		<dd><a href="http://www.nihilogic.dk/labs/canvas_sheet/HTML5_Canvas_Cheat_Sheet.pdf">nihilogic.dk</a>
+		<dt>Editor-Schrift:</dt>
+		<dd><input type="number" id="EditorFontSize" min="14"></dd>
 	</dl>
 </div>
 <script>
 
 var $ = function(id){
 	return document.getElementById(id);
+}
+var $$ = function(className){
+	return document.getElementsByClassName(className);
 }
 
 // Globale vars
@@ -63,10 +70,7 @@ var textarea     = $('query'),
     reset        = $('reset'),
     posX         = $('posX'),
     posY         = $('posY'),
-    savesettings = $('savesettings'),
-    setwidth     = $('setwidth'),
-    setheight    = $('setheight'),
-    framework    = $('framework');
+    fontsize     = $('EditorFontSize');
 
 /* Create editor */
 var editor = CodeMirror.fromTextArea(textarea, {
@@ -75,6 +79,16 @@ var editor = CodeMirror.fromTextArea(textarea, {
 	indentUnit: 4,
 	lineNumbers: true
 });
+
+/* Editor font size */
+var changesize = function(){
+	var box = $$('CodeMirror')[0],
+	    val = (fontsize.value && parseInt(fontsize.value) > 14) ? fontsize.value : 14;
+	box.style.fontSize = val + 'px';
+	window.localStorage.setItem('settingsRecovery', val);
+};
+fontsize.onkeyup = changesize;
+fontsize.onchange = changesize;
 
 /* http://www.quirksmode.org/js/findpos.html */
 var findPos = function(obj) {
@@ -87,7 +101,7 @@ var findPos = function(obj) {
 		} while (obj = obj.offsetParent);
 		return [curleft,curtop];
 	}
-}
+};
 
 /* Show coordinates */
 canvas.onmousemove = function(evt){
@@ -98,7 +112,7 @@ canvas.onmousemove = function(evt){
 };
 canvas.onmouseout = function(){
 	posX.innerHTML = posY.innerHTML = 'NA';
-}
+};
 
 /* Execute! */
 execute.onclick = function(){
@@ -114,20 +128,24 @@ execute.onclick = function(){
 			window.alert("Script-Fehler! " + e);
 		}
 	}
-}
+};
 
 /* Restore last session after reload */
 window.onload = function(){
 	editor.focus();
 	if(window.localStorage){
-		var restored = window.localStorage.getItem('codeRecovery');
-		if(restored && editor.getValue() == ''){
-			editor.setValue(restored);
+		var restoredCode = window.localStorage.getItem('codeRecovery');
+		if(restoredCode && editor.getValue() == ''){
+			editor.setValue(restoredCode);
+		}
+		var restoredSettings = window.localStorage.getItem('settingsRecovery');
+		if(restoredSettings && fontsize.value == ''){
+			fontsize.value = restoredSettings;
+			changesize();
 		}
 	}
 };
 
 })();
-
 
 </script>
