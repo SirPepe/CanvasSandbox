@@ -26,6 +26,7 @@ canvas, .CodeMirror-scroll {  border:1px solid #333; box-shadow:0 0 16px -4px #9
 	<textarea id="query" cols="60" rows="10"></textarea>
 	<br>
 	<input type="button" value="Ausführen" id="execute">
+	<!--<input type="button" value="Reset" id="reset">-->
 </div>
 <div id="side">
 	<dl>
@@ -119,10 +120,10 @@ execute.onclick = function(){
 	var val = editor.getValue();
 	if(val){
 		try {
-			eval(val);
 			if(window.localStorage){
 				window.localStorage.setItem('codeRecovery', val);
 			}
+			eval(val);
 		}
 		catch(e){
 			window.alert("Script-Fehler! " + e);
