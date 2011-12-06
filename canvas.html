@@ -18,6 +18,8 @@ canvas, .CodeMirror-scroll {  border:1px solid #333; box-shadow:0 0 16px -4px #9
 #side { float:left; padding-left:24px; }
 .CodeMirror { font-size: 14px; } /* Default font size */
 .CodeMirror-lines { padding-left: 1.1em; } /* For larger font sizes */
+#execute { font-weight:bold; }
+#reset { float:right; }
 </style>
 <h1>Canvas Sandbox</h1>
 <div id="main">
@@ -26,7 +28,7 @@ canvas, .CodeMirror-scroll {  border:1px solid #333; box-shadow:0 0 16px -4px #9
 	<textarea id="query" cols="60" rows="10"></textarea>
 	<br>
 	<input type="button" value="Ausführen" id="execute">
-	<!--<input type="button" value="Reset" id="reset">-->
+	<input type="button" value="Reset" id="reset">
 </div>
 <div id="side">
 	<dl>
@@ -150,6 +152,13 @@ execute.onclick = function(){
 		catch(e){
 			window.alert(e);
 		}
+	}
+};
+
+/* Reset! */
+reset.onclick = function(){
+	if(window.confirm('Canvas leeren?')){
+		canvas.width = canvas.width;
 	}
 };
 
