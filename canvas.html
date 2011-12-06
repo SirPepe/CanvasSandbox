@@ -21,7 +21,7 @@ canvas, .CodeMirror-scroll {  border:1px solid #333; box-shadow:0 0 16px -4px #9
 </style>
 <h1>Canvas Sandbox</h1>
 <div id="main">
-	<canvas height="320" width="640" id="canvas"></canvas>
+	<canvas height="320" width="640" id="canvas0"></canvas>
 	<br>
 	<textarea id="query" cols="60" rows="10"></textarea>
 	<br>
@@ -36,6 +36,8 @@ canvas, .CodeMirror-scroll {  border:1px solid #333; box-shadow:0 0 16px -4px #9
 		<dd><code>context</code></dd>
 		<dt>Winkel-Umrechner:</dt>
 		<dd><code>Math.toRad(deg)</code></dd>
+		<dt>Positionsfinder:</dt>
+		<dd><code>findPos(element)</code></dd>
 		<dt>Cursorposition:</dt>
 		<dd><span id="posX">NA</span> / <span id="posY">NA</span></dd>
 		<dt>Spezifikationen:</dt>
@@ -47,14 +49,9 @@ canvas, .CodeMirror-scroll {  border:1px solid #333; box-shadow:0 0 16px -4px #9
 	</dl>
 </div>
 <script>
-var $ = function(id){
-	return document.getElementById(id);
-}
-var $$ = function(className){
-	return document.getElementsByClassName(className);
-}
-var canvas = $('canvas'),
-    context = canvas.getContext('2d');
+
+/* Public vars and functions */
+var canvas, context, findPos;
 Math.toRad = function(x){
 	return (x * Math.PI) / 180;
 };
@@ -63,6 +60,15 @@ Math.toRad = function(x){
 (function(){
 "use strict";
 
+var $ = function(id){
+	return document.getElementById(id);
+}
+var $$ = function(className){
+	return document.getElementsByClassName(className);
+}
+
+canvas = $('canvas0');
+context = canvas.getContext('2d');
 var textarea     = $('query'),
     execute      = $('execute'),
     reset        = $('reset'),
@@ -108,7 +114,7 @@ fontsize.onkeyup = changesize;
 fontsize.onchange = changesize;
 
 /* http://www.quirksmode.org/js/findpos.html */
-var findPos = function(obj) {
+findPos = function(obj) {
 	var curleft = 0,
 	    curtop = 0;
 	if(obj.offsetParent){
@@ -142,7 +148,7 @@ execute.onclick = function(){
 			eval(val);
 		}
 		catch(e){
-			window.alert("Script-Fehler! " + e);
+			window.alert(e);
 		}
 	}
 };
