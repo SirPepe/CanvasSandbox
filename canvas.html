@@ -47,22 +47,19 @@ canvas, .CodeMirror-scroll {  border:1px solid #333; box-shadow:0 0 16px -4px #9
 	</dl>
 </div>
 <script>
-
 var $ = function(id){
 	return document.getElementById(id);
 }
 var $$ = function(className){
 	return document.getElementsByClassName(className);
 }
-
-// Globale vars
 var canvas = $('canvas'),
     context = canvas.getContext('2d');
 Math.toRad = function(x){
 	return (x * Math.PI) / 180;
 };
 
-// Ab hier interne Funktionalität
+// Internal functionality
 (function(){
 "use strict";
 
@@ -81,12 +78,31 @@ var editor = CodeMirror.fromTextArea(textarea, {
 	lineNumbers: true
 });
 
+/* Get settings recovery value. Retuns the value for the specified key or the whole settings object */
+var recoverSettings = function(){
+	var key = arguments[0],
+	    settings = JSON.parse(window.localStorage.getItem('settingsRecovery')) || {};
+	if(typeof key !== 'undefined'){
+		return settings[key];
+	}
+	else {
+		return settings;
+	}
+}
+
+/* Set settings recovery (JSON) */
+var saveSettings = function(key, value){
+	var settings = JSON.parse(window.localStorage.getItem('settingsRecovery')) || {};
+	settings[key] = value;
+	window.localStorage.setItem('settingsRecovery', JSON.stringify(settings));
+}
+
 /* Editor font size */
 var changesize = function(){
 	var box = $$('CodeMirror')[0],
 	    val = (fontsize.value && parseInt(fontsize.value) > 14) ? fontsize.value : 14;
 	box.style.fontSize = val + 'px';
-	window.localStorage.setItem('settingsRecovery', val);
+	saveSettings('fontsize', val);
 };
 fontsize.onkeyup = changesize;
 fontsize.onchange = changesize;
@@ -135,15 +151,16 @@ execute.onclick = function(){
 window.onload = function(){
 	editor.focus();
 	if(window.localStorage){
+		/* Restore code */
 		var restoredCode = window.localStorage.getItem('codeRecovery');
 		if(restoredCode && editor.getValue() == ''){
 			editor.setValue(restoredCode);
 		}
-		var restoredSettings = window.localStorage.getItem('settingsRecovery');
-		if(restoredSettings && fontsize.value == ''){
-			fontsize.value = restoredSettings;
-			changesize();
-		}
+		/* Restore font size and strict mode settings */
+		var restoredSettings = recoverSettings();
+		var size = restoredSettings.fontsize || 14;
+		fontsize.value = size;
+		changesize();
 	}
 };
 
