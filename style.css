@@ -1,0 +1,52 @@
+/* Basic Layout */
+body {
+	margin:8px 16px;
+}
+h1 {
+	display:none;
+}
+#main {
+	float:left;
+	width:640px;
+}
+#side {
+	float:left;
+	padding-left:24px;
+}
+
+/* Slidebar content */
+dt, dd {
+	display: block; float:left; margin:0 0 8px 0;
+}
+dt {
+	clear: both;
+}
+dd {
+	padding-left:8px;
+}
+
+/* Canvas and editor */
+canvas {
+	display:block; cursor:crosshair;
+}
+.CodeMirror-scroll {
+	cursor:text;
+}
+canvas, .CodeMirror-scroll {
+	border:1px solid #333;
+	box-shadow:0 0 16px -4px #999;
+}
+.CodeMirror {
+	font-size: 14px; /* Default font size */
+}
+.CodeMirror-lines {
+	padding-left: 1.1em; /* Makes room for larger font sizes */
+}
+
+/* Form elements */
+#execute {
+	font-weight:bold;
+}
+#reset {
+	float:right;
+}
