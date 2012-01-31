@@ -1,3 +1,6 @@
+/*jshint browser:true */
+/*globals CodeMirror:true */
+
 // Public vars and functions
 var canvas, context, findPos;
 Math.toRad = function(x){
@@ -16,14 +19,14 @@ var $$ = function(className){
 };
 
 // DOM elements
-canvas = $('canvas0');
+canvas  = $('canvas0');
 context = canvas.getContext('2d');
-var textarea     = $('query'),
-    execute      = $('execute'),
-    reset        = $('reset'),
-    posX         = $('posX'),
-    posY         = $('posY'),
-    fontsize     = $('EditorFontSize');
+var textarea = $('query'),
+    execute  = $('execute'),
+    reset    = $('reset'),
+    posX     = $('posX'),
+    posY     = $('posY'),
+    fontsize = $('EditorFontSize');
 
 // Create editor
 var editor = CodeMirror.fromTextArea(textarea, {
@@ -44,19 +47,19 @@ var recoverSettings = function(){
 	else {
 		return settings;
 	}
-}
+};
 
 // Set settings recovery (JSON)
 var saveSettings = function(key, value){
 	var settings = JSON.parse(window.localStorage.getItem('settingsRecovery')) || {};
 	settings[key] = value;
 	window.localStorage.setItem('settingsRecovery', JSON.stringify(settings));
-}
+};
 
 // Editor font size
 var changesize = function(){
 	var box = $$('CodeMirror')[0],
-	    val = (fontsize.value && parseInt(fontsize.value) > 14) ? fontsize.value : 14;
+	    val = (fontsize.value && parseInt(fontsize.value, 10) > 14) ? fontsize.value : 14;
 	box.style.fontSize = val + 'px';
 	saveSettings('fontsize', val);
 };
@@ -72,7 +75,8 @@ findPos = function(obj) {
 		do {
 			curleft += obj.offsetLeft;
 			curtop  += obj.offsetTop;
-		} while (obj = obj.offsetParent);
+			obj = obj.offsetParent;
+		} while (obj);
 		return [curleft,curtop];
 	}
 };
@@ -115,7 +119,7 @@ window.onload = function(){
 	if(window.localStorage){
 		// Restore code
 		var restoredCode = window.localStorage.getItem('codeRecovery');
-		if(restoredCode && editor.getValue() == ''){
+		if(restoredCode && editor.getValue() === ''){
 			editor.setValue(restoredCode);
 		}
 		// Restore font size and strict mode settings
