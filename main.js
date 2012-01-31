@@ -1,5 +1,5 @@
 /*jshint browser:true */
-/*globals SandboxEditor:true */
+/*globals SandboxEditor:true, key:true */
 
 // Public vars and functions
 var canvas, context, findPos;
@@ -63,7 +63,7 @@ canvas.onmouseout = function(){
 };
 
 // Execute the code
-execute.onclick = function(){
+var exec_code = function(){
 	var val = editors[0].getValue();
 	if(val){
 		try {
@@ -75,6 +75,11 @@ execute.onclick = function(){
 		}
 	}
 };
+execute.onclick = exec_code;
+key('ctrl+s, ctrl+enter', function(){
+	exec_code();
+	return false;
+});
 
 // Reset the canvas element
 reset.onclick = function(){
