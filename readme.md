@@ -1,7 +1,7 @@
 Canvas Sandbox
 ==============
 
-A simple HTML5 Canvas sandbox for educational purposes (MIT License).
+A simple HTML5 Canvas sandbox for educational purposes (MIT License). Supports keyboard shortcuts and autosave using web storage.
 
 ![Screenshot](https://github.com/SirPepe/CanvasSandbox/raw/master/screenshot.png)
 
