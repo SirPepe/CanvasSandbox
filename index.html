@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title>Canvas-Sandbox</title>
-<script src="lib/codemirror/codemirror.js"></script>
-<script src="lib/codemirror/javascript.js"></script>
 <link rel="stylesheet" href="lib/codemirror/codemirror.css">
 <link rel="stylesheet" href="lib/codemirror/neat.css">
 <link rel="stylesheet" href="style.css">
 <h1>Canvas Sandbox</h1>
-<div id="main">
-	<canvas height="320" width="640" id="canvas0"></canvas>
+<div id="Main">
+	<canvas height="320" width="640" id="Canvas0"></canvas>
 	<br>
-	<textarea id="query" cols="60" rows="10"></textarea>
+	<textarea id="Query" cols="60" rows="10"></textarea>
 	<br>
-	<input type="button" value="Ausführen" id="execute">
-	<input type="button" value="Reset" id="reset">
+	<input type="button" value="Ausführen" id="Execute">
+	<input type="button" value="Reset" id="Reset">
 </div>
-<div id="side">
+<div id="Side">
 	<dl>
 		<dt>Canvas-Element:</dt>
 		<dd><code>canvas</code></dd>
@@ -26,13 +24,16 @@
 		<dt>Positionsfinder:</dt>
 		<dd><code>findPos(element)</code></dd>
 		<dt>Cursorposition:</dt>
-		<dd><span id="posX">NA</span> / <span id="posY">NA</span></dd>
+		<dd><span id="PosX">NA</span> / <span id="PosY">NA</span></dd>
 		<dt>Spezifikationen:</dt>
 		<dd><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html">WHATWG</a>
 		<dt>Cheat Sheet:</dt>
 		<dd><a href="http://www.nihilogic.dk/labs/canvas_sheet/HTML5_Canvas_Cheat_Sheet.pdf">nihilogic.dk</a>
 		<dt>Editor-Schrift:</dt>
-		<dd><input type="number" id="EditorFontSize" min="14"></dd>
+		<dd><input type="number" id="FontSize" min="14"></dd>
 	</dl>
 </div>
-<script src="sandbox.js"></script>
+<script src="lib/codemirror/codemirror.js"></script>
+<script src="lib/codemirror/javascript.js"></script>
+<script src="lib/SandboxEditor.js"></script>
+<script src="main.js"></script>

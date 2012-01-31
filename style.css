@@ -5,11 +5,11 @@ body {
 h1 {
 	display:none;
 }
-#main {
+#Main {
 	float:left;
 	width:640px;
 }
-#side {
+#Side {
 	float:left;
 	padding-left:24px;
 }
@@ -44,9 +44,9 @@ canvas, .CodeMirror-scroll {
 }
 
 /* Form elements */
-#execute {
+#Execute {
 	font-weight:bold;
 }
-#reset {
+#Reset {
 	float:right;
 }
