@@ -1,5 +1,7 @@
 /* Basic Layout */
 body {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
 	margin:8px 16px;
 }
 h1 {
@@ -16,7 +18,9 @@ h1 {
 
 /* Slidebar content */
 dt, dd {
-	display: block; float:left; margin:0 0 8px 0;
+	display: inline-block;
+	float:left;
+	margin:0 0 12px 0;
 }
 dt {
 	clear: both;
@@ -24,6 +28,15 @@ dt {
 dd {
 	padding-left:8px;
 }
+a:link, a:visited {
+	color: #0069d6;
+	text-decoration: none;
+}
+a:hover, a:active{
+	color: #00438a;
+	text-decoration: underline;
+}
+
 
 /* Canvas and editor */
 canvas {
