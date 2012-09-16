@@ -9,8 +9,7 @@ Math.toRad = function(x){
 };
 
 window.requestAnimationFrame = window.requestAnimationFrame || (function(){
-	return window.requestAnimationFrame        ||
-			window.webkitRequestAnimationFrame ||
+	return window.webkitRequestAnimationFrame ||
 			window.mozRequestAnimationFrame    ||
 			window.oRequestAnimationFrame      ||
 			window.msRequestAnimationFrame     ||
@@ -80,10 +79,11 @@ var exec_code = function(){
 	if(val){
 		try {
 			SandboxEditor.save();
-			eval(val);
+			new Function(val).call(); // Allow the code in `val` to use the outer `$` from jQuery
 		}
 		catch(e){
-			window.alert(e);
+			window.alert(e + "\nDetails in der Konsole");
+			console.log(e)
 		}
 	}
 };
