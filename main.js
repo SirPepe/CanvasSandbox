@@ -1,5 +1,5 @@
 /*jshint browser:true */
-/*globals SandboxEditor:true, key:true */
+/*globals SandboxEditor:true, key:true; */
 
 // Public vars and functions
 var canvas, context, findPos;
@@ -50,8 +50,8 @@ var editors = new SandboxEditor({
 
 // Stolen from http://www.quirksmode.org/js/findpos.html
 findPos = function(obj) {
-	var curleft = 0,
-	    curtop = 0;
+	var curleft = 0;
+	var curtop = 0;
 	if(obj.offsetParent){
 		do {
 			curleft += obj.offsetLeft;
@@ -64,8 +64,8 @@ findPos = function(obj) {
 
 // Show coordinates
 canvas.onmousemove = function(evt){
-	var x = evt.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - findPos(canvas)[0],
-	    y = evt.clientY + document.body.scrollTop  + document.documentElement.scrollTop  - findPos(canvas)[1];
+	var x = evt.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - findPos(canvas)[0];
+	var y = evt.clientY + document.body.scrollTop  + document.documentElement.scrollTop  - findPos(canvas)[1];
 	posX.innerHTML = x;
 	posY.innerHTML = y;
 };
@@ -83,7 +83,9 @@ var exec_code = function(){
 		}
 		catch(e){
 			window.alert(e + "\nDetails in der Konsole");
-			console.log(e)
+			if(typeof window.console){
+				window.console.log(e);
+			}
 		}
 	}
 };
