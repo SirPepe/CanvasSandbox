@@ -90,10 +90,19 @@ var exec_code = function(){
 	}
 };
 execute.onclick = exec_code;
+
+
+// Execute on keypress
 key('ctrl+s, ctrl+enter', function(){
 	exec_code();
 	return false;
 });
+
+// Override keymaster's regular filter function to catch keypress events in the textarea
+key.filter = function(){
+	var tagName = (event.target || event.srcElement).tagName;
+	return !(tagName == 'INPUT' || tagName == 'SELECT' /*|| tagName == 'TEXTAREA'*/);
+};
 
 // Reset the canvas element
 reset.onclick = function(){
