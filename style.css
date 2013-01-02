@@ -47,10 +47,10 @@ input {
 canvas {
 	display:block; cursor:crosshair;
 }
-.CodeMirror-scroll {
+.CodeMirror {
 	cursor:text;
 }
-canvas, .CodeMirror-scroll {
+canvas, .CodeMirror {
 	border:1px solid #333;
 	box-shadow:0 0 16px -4px #999;
 }

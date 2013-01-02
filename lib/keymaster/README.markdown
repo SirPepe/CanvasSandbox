@@ -61,13 +61,31 @@ and `f1` through `f19`.
 ## Modifier key queries
 
 At any point in time (even in code other than key shortcut handlers),
-you can query the `key` object for the state of modifier keys. This
+you can query the `key` object for the state of any keys. This
 allows easy implementation of things like shift+click handlers. For example,
 `key.shift` is `true` if the shift key is currently pressed.
 
 ```javascript
 if(key.shift) alert('shift is pressed, OMGZ!');
 ```
+
+## Other key queries
+
+At any point in time (even in code other than key shortcut handlers),
+you can query the `key` object for the state of any key. This
+is very helpful for game development using a game loop. For example,
+`key.isPressed(77)` is `true` if the M key is currently pressed.
+
+```javascript
+if(key.isPressed("M")) alert('M key is pressed, can ya believe it!?');
+if(key.isPressed(77)) alert('M key is pressed, can ya believe it!?');
+```
+
+You can also get these as an array using...
+```javascript
+key.getPressedKeyCodes() // returns an array of key codes currently pressed
+```
+
 
 ## Scopes
 
@@ -83,10 +101,41 @@ key('o, enter', 'files', function(){ /* do something else */ });
 key.setScope('issues'); // default scope is 'all'
 ```
 
-## Notes
+## Filter key presses 
 
-When an `INPUT`, `SELECT` or `TEXTAREA` element is focused, Keymaster
-doesn't process shortcuts.
+By default, when an `INPUT`, `SELECT` or `TEXTAREA` element is focused, Keymaster doesn't process any shortcuts.
+
+You can change this by overwriting `key.filter` with a new function. This function is called before
+Keymaster processes shortcuts, with the keydown event as argument.
+
+If your function returns false, then the no shortcuts will be processed.
+
+Here's the default implementation for reference:
+
+```javascript
+function filter(event){
+  var tagName = (event.target || event.srcElement).tagName;
+  return !(tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
+}
+```
+
+If you only want _some_ shortcuts to work while in a input element, you change the scope in the 
+key.filter function; however a more robust way to handle this is to use proper
+focus and blur event handlers on your input element, and change scopes there as you see fit.
+
+## noConflict mode
+
+You can call ```key.noConflict``` to remove the ```key``` function from global scope and restore whatever ```key``` was defined to before Keymaster was loaded. Calling ```key.noConflict``` will return the Keymaster ```key``` function.
+
+```javascript
+var k = key.noConflict();
+k('a', function() { /* ... */ });
+
+key()
+// --> TypeError: 'undefined' is not a function
+```
+
+## Notes
 
 Keymaster should work with any browser that fires `keyup` and `keydown` events,
 and is tested with IE (6+), Safari, Firefox and Chrome.
@@ -132,7 +181,6 @@ submit a pull request.
 ## TODOs
 
 * Finish test suite
-* Make behavior with `INPUT` / `SELECT` / `TEXTAREA` configurable
 
-Keymaster is (c) 2011 Thomas Fuchs and may be freely distributed under the MIT license.
+Keymaster is (c) 2011-2012 Thomas Fuchs and may be freely distributed under the MIT license.
 See the `MIT-LICENSE` file.
