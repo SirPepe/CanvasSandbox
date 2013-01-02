@@ -9,4 +9,4 @@ Credits
 -------
 
   * Code editor: [Code Mirror](http://codemirror.net/)
-  * Keyboard shortcuts: [keymaster.js](https://github.com/madrobby/keymaster) (slightly patched)
+  * Keyboard shortcuts: [keymaster.js](https://github.com/madrobby/keymaster)
