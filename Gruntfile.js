@@ -10,12 +10,16 @@ requirejs: {
       baseUrl: 'src/script',
       paths: {
         almond: 'lib/almond/almond',
+        bacon: 'lib/bacon/dist/Bacon',
+        jshint: 'lib/jshint',
         jquery: 'lib/jquery/jquery',
+        codemirror: 'lib/codemirror/lib/codemirror',
         keymaster: 'lib/keymaster/keymaster'
       },
-      name: 'canvasSandbox',
-      out: 'canvasSandbox.js',
-      optimize: 'uglify'
+      name: 'almond',
+      include: 'canvasSandbox',
+      out: 'lib/canvasSandbox.js',
+      optimize: 'none'
     }
   }
 },
@@ -23,9 +27,10 @@ requirejs: {
 cssmin: {
   compress: {
     files: {
-      'canvasSandbox.css': [
+      'lib/canvasSandbox.css': [
         'src/script/lib/codemirror/lib/codemirror.css',
         'src/script/lib/codemirror/theme/neat.css',
+        'src/script/lib/codemirror/addon/lint/lint.css',
         'src/style/canvasSandbox.css'
       ]
     }

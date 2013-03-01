@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title>Canvas-Sandbox</title>
-<link rel="stylesheet" href="canvasSandbox.css">
+<link rel="stylesheet" href="lib/canvasSandbox.css">
 
 <h1>Canvas Sandbox</h1>
 
 <div id="Main">
 	<canvas height="320" width="640" id="Canvas0"></canvas>
 	<br>
-	<textarea id="Query" cols="60" rows="10"></textarea>
+	<textarea id="Code" cols="60" rows="10"></textarea>
 	<br>
 	<input type="button" value="Ausführen" id="Execute">
 	<input type="button" value="Reset" id="Reset">
@@ -22,11 +22,11 @@
 		<dt>2D-Context:</dt>
 		<dd><code>context</code></dd>
 		<dt>jQuery:</dt>
-		<dd><code>$()</code> / <code>jQuery()</code> (<a href="http://docs.jquery.com/">Docs</a>)</dd>
+		<dd><code>$()</code> (<a href="http://api.jquery.com/">Docs</a>)</dd>
 		<dt>Winkel-Umrechner:</dt>
 		<dd><code>Math.toRad(deg)</code></dd>
 		<dt>Animationen:</dt>
-		<dd><code>requestAnimationFrame(callback)</code></dd>
+		<dd><code>requestAnimationFrame(cb)</code></dd>
 		<dt>Cursorposition:</dt>
 		<dd><span id="PosX">NA</span> / <span id="PosY">NA</span></dd>
 		<dt>Spezifikationen:</dt>
@@ -37,9 +37,8 @@
 		<dd><a href="https://developer.mozilla.org/en-US/docs/JavaScript">MDN</a>
 		<dt>Ausführen:</dt>
 		<dd><kbd>Strg</kbd> + <kbd>s</kbd> oder <kbd>Strg</kbd> + <kbd>Enter</kbd></dd>
-		<dt>Editor-Schrift:</dt>
-		<dd><input type="number" id="FontSize" min="14"></dd>
 	</dl>
+	<p>Der Code wird regelmäßig automatisch gespeichert.</p>
 </div>
 
-<script src="canvasSandbox.js"></script>
+<script src="lib/canvasSandbox.js"></script>
