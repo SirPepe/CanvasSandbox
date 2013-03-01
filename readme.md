@@ -7,8 +7,7 @@ Firefox, Opera and IE 9.
 
 ![Screenshot](https://github.com/SirPepe/CanvasSandbox/raw/master/screenshot.png)
 
-Build
------
+Build:
 
   1. `sudo npm install -g bower`
   2. `npm install && bower install`
