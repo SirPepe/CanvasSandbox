@@ -13,7 +13,8 @@
   },
   "devDependencies" : {
     "grunt": "0.4.x",
-    "grunt-contrib": "0.4.x"
+    "grunt-contrib": "0.4.x",
+    "nib": "0.9.x"
   },
   "licenses":[{
     "type": "MIT",

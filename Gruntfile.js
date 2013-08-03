@@ -24,6 +24,18 @@ requirejs: {
   }
 },
 
+stylus: {
+  compile: {
+    options: {
+      compress: true,
+      paths: [require('nib').path]
+    },
+    files: {
+      'src/style/canvasSandbox.css': 'src/style/canvasSandbox.styl'
+    }
+  }
+},
+
 cssmin: {
   compress: {
     files: {
@@ -35,12 +47,16 @@ cssmin: {
       ]
     }
   }
-}
+},
+
+clean: [
+  'src/style/canvasSandbox.css'
+]
 
 });
 
 grunt.loadNpmTasks('grunt-contrib');
 
-grunt.registerTask('default', ['requirejs', 'cssmin']);
+grunt.registerTask('default', ['requirejs', 'stylus', 'cssmin', 'clean']);
 
 };
