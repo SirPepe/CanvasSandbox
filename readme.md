@@ -3,7 +3,7 @@ Canvas Sandbox
 
 A simple HTML5 Canvas sandbox for educational purposes (MIT License). Supports
 keyboard shortcuts, JSHint, and autosave using web storage. Tested in Chrome,
-Firefox, Opera and IE 9.
+and Firefox but should also work in Opera and IE 9.
 
 ![Screenshot](https://github.com/SirPepe/CanvasSandbox/raw/master/screenshot.png)
 

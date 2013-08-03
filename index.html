@@ -7,15 +7,21 @@
 
 <div id="Main">
 	<canvas height="320" width="640" id="Canvas0"></canvas>
-	<br>
 	<textarea id="Code" cols="60" rows="10"></textarea>
-	<br>
-	<input type="button" value="Ausführen" id="Execute">
-	<input type="button" value="Reset" id="Reset">
 </div>
 
+<p class="buttons">
+	<input type="button" value="✓ Ausführen" id="Execute">
+	<input type="button" value="✕ Reset" id="Reset">
+</p>
+
+<p class="cursor">
+	Cursor:
+	<span id="PosX">NA</span> / <span id="PosY">NA</span>
+</p>
+
 <div id="Side">
-	<h2>Extras</h2>
+	<h2>Hilfe</h2>
 	<dl>
 		<dt>Canvas-Element:</dt>
 		<dd><code>canvas</code></dd>
@@ -27,8 +33,6 @@
 		<dd><code>Math.toRad(deg)</code></dd>
 		<dt>Animationen:</dt>
 		<dd><code>requestAnimationFrame(cb)</code></dd>
-		<dt>Cursorposition:</dt>
-		<dd><span id="PosX">NA</span> / <span id="PosY">NA</span></dd>
 		<dt>Spezifikationen:</dt>
 		<dd><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html">WHATWG</a>
 		<dt>Cheat Sheet:</dt>

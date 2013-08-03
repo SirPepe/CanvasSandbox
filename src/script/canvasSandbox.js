@@ -77,4 +77,20 @@ $('#Reset').click(function(){
 });
 
 
+var resizeCanvas = function(){
+  var height = $('html').height() - $('.CodeMirror').height() - 32;
+  var width = $('#Main').width();
+  $('canvas').attr({
+    height: height,
+    width: width
+  });
+};
+$(window).load(function(){
+  setTimeout(function(){ // Hack required for Firefox
+    resizeCanvas();
+  }, 25);
+});
+$(window).on('resize', resizeCanvas);
+
+
 });
