@@ -18,7 +18,7 @@ requirejs: {
       },
       name: 'almond',
       include: 'canvasSandbox',
-      out: 'lib/canvasSandbox.js',
+      out: 'canvasSandbox.js',
       optimize: 'none'
     }
   }
@@ -27,7 +27,7 @@ requirejs: {
 cssmin: {
   compress: {
     files: {
-      'lib/canvasSandbox.css': [
+      'canvasSandbox.css': [
         'src/script/lib/codemirror/lib/codemirror.css',
         'src/script/lib/codemirror/theme/neat.css',
         'src/script/lib/codemirror/addon/lint/lint.css',

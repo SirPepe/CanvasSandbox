@@ -1,3 +1,5 @@
 node_modules
 src/script/lib/*
 !src/script/lib/*.js
+canvasSandbox.js
+canvasSandbox.css
