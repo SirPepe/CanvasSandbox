@@ -9,6 +9,6 @@ Firefox, Opera and IE 9.
 
 Build:
 
-  1. `sudo npm install -g bower`
+  1. `sudo npm install -g bower grunt-cli`
   2. `npm install && bower install`
   3. `grunt`
