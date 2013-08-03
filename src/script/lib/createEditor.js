@@ -3,6 +3,9 @@ define(['jquery', 'codemirror'], function($){
   var save = function(editor, key){
     var contents = editor.getValue();
     window.localStorage.setItem(key, contents);
+    if(typeof console !== 'undefined'){
+      (console.info || console.log).call(console, new Date() + ': Code gespeichert');
+    }
     return editor;
   };
 
