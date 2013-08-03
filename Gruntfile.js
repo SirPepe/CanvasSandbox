@@ -19,7 +19,7 @@ requirejs: {
       name: 'almond',
       include: 'canvasSandbox',
       out: 'canvasSandbox.js',
-      optimize: 'none'
+      optimize: 'uglify'
     }
   }
 },
