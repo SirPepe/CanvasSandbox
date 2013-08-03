@@ -26,7 +26,6 @@ var editor = createEditor({
     indentUnit: 2,
     indentWithTabs: false,
     lineNumbers: true,
-    autoCloseBrackets: true,
     matchBrackets: true,
     styleActiveLine: true,
     gutters: ['CodeMirror-lint-markers'],
