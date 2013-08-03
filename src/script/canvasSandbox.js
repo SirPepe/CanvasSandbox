@@ -18,7 +18,7 @@ var $canvas = $('canvas');
 window.canvas = $('canvas')[0];
 window.context = $('canvas')[0].getContext('2d');
 var editor = createEditor({
-  'Code': {
+  Code: {
     mode: 'javascript',
     theme: 'neat',
     tabSize: 2,
@@ -70,6 +70,7 @@ window.key('ctrl+s, ctrl+enter', runCode);
 $('#Execute').click(runCode);
 
 
+// Delete canvas contents and reset transformation matrix
 $('#Reset').click(function(){
   window.context.setTransform(1, 0, 0, 1, 0, 0);
   window.context.clearRect(0, 0, window.canvas.width, window.canvas.height);
