@@ -6,7 +6,6 @@ require([
   'lib/jshint',
   'lib/globals',
   'lib/codemirror/mode/javascript/javascript',
-  'lib/codemirror/addon/edit/closebrackets',
   'lib/codemirror/addon/edit/matchbrackets',
   'lib/codemirror/addon/selection/active-line',
   'lib/codemirror/addon/lint/lint',
