@@ -77,6 +77,25 @@ $('#Reset').click(function(){
 });
 
 
+// Save after typing
+editor.on('keyup', (function(){
+  var result;
+  var timeout = null;
+  return function(){
+    var later = function(){
+      timeout = null;
+      editor.saveValue();
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, 1000);
+    if(!timeout){
+      editor.saveValue();
+    }
+  };
+})());
+
+
+// Set canvas size via html attribute after page load
 var resizeCanvas = function(){
   var height = $('html').height() - $('.CodeMirror').height() - 32;
   var width = $('#Main').width();
