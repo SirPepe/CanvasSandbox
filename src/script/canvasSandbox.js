@@ -71,6 +71,7 @@ $('#Execute').click(runCode);
 
 
 $('#Reset').click(function(){
+  window.context.setTransform(1, 0, 0, 1, 0, 0);
   window.context.clearRect(0, 0, window.canvas.width, window.canvas.height);
 });
 
